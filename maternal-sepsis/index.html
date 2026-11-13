@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maternal Sepsis Pre-referral</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1c2430; --muted: #5b6676; --line: #dde2e8;
+    --accent: #0d7a6f; --accent-soft: #e3f3f1; --warn: #9a5b00; --warn-soft: #fff4e0;
+    --s: #2f5fb3; --b: #6a4cb0; --a: #b0472f; --r: #0d7a6f;
+  }
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 80px; }
+  h1 { font-size: 1.45rem; line-height: 1.25; margin: 6px 0 4px; }
+  h2 { font-size: 1.15rem; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+  h3 { font-size: 1rem; margin: 18px 0 6px; }
+  p { margin: 6px 0; }
+  .sub { color: var(--muted); margin: 0 0 18px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 14px 0; }
+  .tag { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; color: #fff; font-weight: 700; flex: none; }
+  .S .tag { background: var(--s); } .B .tag { background: var(--b); } .A .tag { background: var(--a); } .R .tag { background: var(--r); }
+  ul { margin: 6px 0; padding-left: 20px; } li { margin: 3px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 8px 0; }
+  th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--accent-soft); }
+  .scroll { overflow-x: auto; }
+  .note { background: var(--warn-soft); border-left: 4px solid var(--warn); padding: 8px 12px; border-radius: 6px; margin: 10px 0; }
+  .q { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 14px; }
+  .q:first-of-type { border-top: 0; margin-top: 4px; padding-top: 0; }
+  .qn { font-weight: 700; }
+  .why { color: var(--muted); font-size: 0.93rem; }
+  label.opt { display: flex; gap: 10px; align-items: flex-start; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; margin: 6px 0; cursor: pointer; }
+  label.opt:hover { border-color: var(--accent); }
+  label.opt input { margin-top: 4px; flex: none; }
+  textarea, input[type=text], input[type=date] { width: 100%; font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  textarea { min-height: 64px; resize: vertical; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+  @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } }
+  .bar { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--line); padding: 10px 16px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  button { font: inherit; border: 0; border-radius: 8px; padding: 9px 14px; background: var(--accent); color: #fff; cursor: pointer; }
+  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  #toast { position: fixed; left: 50%; bottom: 70px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  #toast.on { opacity: 1; }
+  .small { font-size: 0.88rem; color: var(--muted); }
+  a { color: var(--accent); text-underline-offset: 2px; overflow-wrap: anywhere; }
+  ol.refs li { margin: 6px 0; }
+  @media print { .bar, #toast { display: none; } body { background: #fff; } .card { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="small">CDST — Clinical Decision Support Tool · Request for Medical Officer decision · 12 Nov 2026</p>
+  <h1>Pre-referral care for a postpartum woman in septic shock</h1>
+  <p class="sub">SBAR summary of a quality review, with two decisions for you. It takes about 10 minutes. Your answers stay on this device until you press <b>Copy answers</b> or <b>Download</b> and send them back.</p>
+
+  <section class="card S">
+    <h2><span class="tag">S</span> Situation</h2>
+    <p>The CDST app helps CHOs (sub-centre) and nurse practitioners (NPs, at the PHC) run a consultation and draft a plan, which a remote doctor reviews. In a quality review we replayed one real consultation through the app many times:</p>
+    <ul>
+      <li><b>The patient:</b> a 28-year-old woman, about 5 weeks (34 days) after delivery. She had fever and body ache for 6–7 days, headache and severe weakness, and was pale.</li>
+      <li><b>Her vitals:</b> temperature 38.5 °C, BP 81/45 mmHg, pulse 90/min, SpO₂ 100 %. Recorded weight 29.2 kg, height 140 cm (the weight may be a recording error).</li>
+      <li><b>The app was right on risk and referral:</b> high risk and immediate referral in every run.</li>
+      <li><b>The pre-referral treatment it wrote was inconsistent.</b> No antibiotic was ever prescribed:</li>
+    </ul>
+    <div class="scroll"><table>
+      <tr><th>Mode</th><th>IV fluid bolus prescribed</th><th>First antibiotic dose prescribed</th></tr>
+      <tr><td>NP (PHC)</td><td><b>0 of 8 runs</b> (fluids only mentioned as advice)</td><td>0 of 8</td></tr>
+      <tr><td>CHO (sub-centre)</td><td>6 of 7 runs (500 ml Ringer's lactate or normal saline)</td><td>0 of 7</td></tr>
+    </table></div>
+  </section>
+
+  <section class="card B">
+    <h2><span class="tag">B</span> Background</h2>
+    <h3>How the app writes a prescription</h3>
+    <ul>
+      <li><b>CHO mode:</b> may prescribe only from the sub-centre formulary (AAM-SHC Essential Medicines List 2026). Pre-referral injections for the CHO are already on hold until an MO decides which ones and at what dose. Until then the plan refers without them.</li>
+      <li><b>NP mode:</b> has no fixed list. It prescribes what the national guidelines loaded into the app recommend. Those are the ICMR Standard Treatment Workflows and the ICMR Antimicrobial Treatment Guidelines (AMRTG 2025).</li>
+      <li><b>Every plan waits for the remote doctor</b> (within 1 hour) before anything is dispensed. For a high-risk patient the app tells the nurse: "Do not dispense any medication until the doctor has decided … If the patient deteriorates, phone the doctor or refer immediately — do not wait."</li>
+    </ul>
+    <h3>What the loaded guidelines contain</h3>
+    <ul>
+      <li><b>AMRTG 2025 sepsis and puerperal sepsis sections (<a href="https://amrtg.icmr.org.in/section-info/3/4" target="_blank" rel="noopener">§3.4</a>, <a href="https://amrtg.icmr.org.in/section-info/6/8" target="_blank" rel="noopener">§6.8</a>) are hospital-level.</b> They cover piperacillin-tazobactam or meropenem for 7–14 days, 30 ml/kg crystalloid and vasopressors. We have marked them as background for the referral, never as a prescription source.</li>
+      <li><b>There is no adult or maternal pre-referral protocol</b> for the sub-centre or PHC. The ICMR workflows cover sepsis only for children and newborns.</li>
+    </ul>
+    <h3>Official sources we found for pre-referral maternal sepsis</h3>
+    <div class="scroll"><table>
+      <tr><th>Source</th><th>Written for</th><th>What it says</th></tr>
+      <tr><td><a href="https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/sba_guidelines_for_skilled_attendance_at_birth.pdf" target="_blank" rel="noopener">MoHFW SBA Guidelines, 2010</a> (printed p.84)</td><td>ANM / LHV / staff nurse, SC–PHC</td><td>First dose: <b>ampicillin 1 g orally + metronidazole 400 mg orally + gentamicin 80 mg IM</b>, then refer. If general condition is poor, "start IV fluids" (no volume given).</td></tr>
+      <tr><td><a href="https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/trainees_handbook_for_training_of_mos_in_preg_care.pdf" target="_blank" rel="noopener">MoHFW MO Trainees' Handbook, 2009</a> (p.84)</td><td>MO, 24×7 PHC</td><td>"Toxic" (high fever, pulse &gt;100): IV fluids + <b>ampicillin 1 g IV</b> + metronidazole (no dose) + gentamicin 80 mg IM, refer to FRU. "Non-toxic" is defined by a pulse of 90–100.</td></tr>
+      <tr><td><a href="https://nhsrcindia.org/sites/default/files/2022-05/Emergency%20Module%20for%20MO_Inside_23%20Mar%202022.pdf" target="_blank" rel="noopener">MoHFW Emergency Manual for MOs at AB-HWC, 2021</a> (p.79–80)</td><td>MO, PHC-HWC</td><td>Septic shock: IV fluids <b>20 ml/kg, up to 3 L</b>. Cefotaxime + metronidazole (no doses).</td></tr>
+      <tr><td><a href="https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/Revised_CEmONC_curriculum_2024-Part_1.pdf" target="_blank" rel="noopener">MoHFW Revised CEmONC Curriculum, 2024, Part 1</a> (p.128–129)</td><td>MBBS MO at FRU</td><td><b>"Do not give antibiotics by mouth to a woman in shock."</b> Septic shock: <b>30 ml/kg crystalloid</b> for hypotension; <b>ampicillin 2 g IV 6-hourly OR a 3rd-generation cephalosporin 1 g IV 8-hourly, PLUS gentamicin 80 mg IV 8-hourly</b>; refer after the first dose. It gives no metronidazole, and it is unclear whether gentamicin goes with both options.</td></tr>
+      <tr><td><a href="https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/Revised_CEmONC_curriculum_2024-Part_2.pdf" target="_blank" rel="noopener">Same curriculum, Part 2</a> (p.64), metritis</td><td>MBBS MO at FRU</td><td>Ampicillin 2 g IV 6-hourly + gentamicin 5 mg/kg IV daily + metronidazole 500 mg IV 8-hourly (a full course, not a pre-referral dose).</td></tr>
+      <tr><td><a href="https://nhm.gov.in/New_Updates_2018/Scope%20of%20Practice%20Document%20.pdf" target="_blank" rel="noopener">Scope of Practice, Nurse Practitioner in Midwifery, 2021</a></td><td>Nurse practitioner (midwifery)</td><td>May give "first aid" for puerperal sepsis on her own authority. Names ampicillin, metronidazole and gentamicin, with no doses.</td></tr>
+      <tr><td><a href="https://nhm.gov.in/New_Update-2022-23/MH/GUIDELINES-%20MH/CHO_Booklet_%20Maternal_Health-English.pdf" target="_blank" rel="noopener">CHO Maternal Health Booklet, 2022</a></td><td>CHO, AAM-SHC</td><td>"Sepsis should be referred directly". No pre-referral drugs.</td></tr>
+    </table></div>
+    <p class="small">What is stocked: ampicillin, gentamicin, metronidazole tablets, Ringer's lactate and normal saline are on both the SHC and PHC lists. Ceftriaxone, cefotaxime and IV metronidazole are on the PHC list only. The SHC formulary marks gentamicin "avoid in pregnancy", and the app now treats a woman up to 6 weeks after delivery as pregnant for safety checks.</p>
+  </section>
+
+  <section class="card A">
+    <h2><span class="tag">A</span> Assessment</h2>
+    <ul>
+      <li><b>The sources disagree:</b>
+        <ul>
+          <li><b>Oral vs IV antibiotics in shock:</b> SBA 2010 uses oral antibiotics; CEmONC 2024 forbids them in shock.</li>
+          <li><b>Fluid volume:</b> no volume (SBA), 20 ml/kg (2021) or 30 ml/kg (2024).</li>
+          <li><b>Antibiotic choice:</b> ampicillin + gentamicin ± metronidazole, or a cephalosporin.</li>
+        </ul>
+        None is written for both of our cadres.</li>
+      <li><b>No source defines when to give it.</b> "General condition poor" is undefined. By the 2009 pulse rule, this woman (pulse 90, BP 81/45) would count as "non-toxic" despite being in shock.</li>
+      <li><b>Weight-based fluids depend on the recorded weight.</b> At the recorded 29.2 kg, 20 ml/kg is 584 ml and 30 ml/kg is 876 ml; at 50 kg they are 1,000 and 1,500 ml.</li>
+      <li><b>The app will not invent a regimen.</b> Until you choose one, the safe default stays: high risk, immediate referral, IV access advised, no drug.</li>
+      <li><b>A second, smaller problem:</b> the guideline search pulled a <i>newborn</i> emergency-triage passage (ICMR STW Vol 3, 2022) into this adult woman's plan. The CHO plan cited it as the source for the adult IV fluid bolus.</li>
+    </ul>
+  </section>
+
+  <section class="card R" id="form">
+    <h2><span class="tag">R</span> Recommendation — your decisions</h2>
+    <p class="why">Choose one option per question, or write your own under "Other". Leave a question blank if you want to discuss it.</p>
+
+    <h3>Decision 1 · Pre-referral care for maternal (puerperal) sepsis with shock</h3>
+
+    <div class="q" data-q="1a">
+      <p class="qn">1a. Who may give pre-referral treatment?</p>
+      <label class="opt"><input type="radio" name="1a" value="NP (PHC) only; CHO refers without drugs"><span>NP at the PHC only; the CHO refers without drugs</span></label>
+      <label class="opt"><input type="radio" name="1a" value="Both NP and CHO"><span>Both NP and CHO</span></label>
+      <label class="opt"><input type="radio" name="1a" value="Neither; refer only, IV access advised"><span>Neither: refer only (IV access advised)</span></label>
+      <label class="opt"><input type="radio" name="1a" value="other"><span>Other</span></label>
+      <input type="text" name="1a_other" placeholder="Other / comment">
+    </div>
+
+    <div class="q" data-q="1b">
+      <p class="qn">1b. When may it be given?</p>
+      <p class="why">Today every plan waits for the remote doctor (within 1 hour), and a patient who deteriorates is referred immediately.</p>
+      <label class="opt"><input type="radio" name="1b" value="Immediately in shock, then inform the doctor"><span>Immediately when she is in shock, then inform the doctor</span></label>
+      <label class="opt"><input type="radio" name="1b" value="Only after the doctor approves (phone or app)"><span>Only after the doctor approves it (phone or app)</span></label>
+      <label class="opt"><input type="radio" name="1b" value="other"><span>Other</span></label>
+      <input type="text" name="1b_other" placeholder="Other / comment">
+    </div>
+
+    <div class="q" data-q="1c">
+      <p class="qn">1c. What should trigger it?</p>
+      <label class="opt"><input type="checkbox" name="1c" value="Systolic BP < 90"><span>Systolic BP &lt; 90 mmHg (the app's current sepsis screen)</span></label>
+      <label class="opt"><input type="checkbox" name="1c" value="Systolic BP < 100"><span>Systolic BP &lt; 100 mmHg</span></label>
+      <label class="opt"><input type="checkbox" name="1c" value="Pulse > 100"><span>Pulse &gt; 100/min</span></label>
+      <label class="opt"><input type="checkbox" name="1c" value="Altered sensorium / cold clammy skin"><span>Altered sensorium, or cold clammy skin</span></label>
+      <label class="opt"><input type="checkbox" name="1c" value="Any suspected puerperal sepsis (shock or not)"><span>Any suspected puerperal sepsis, with or without shock</span></label>
+      <input type="text" name="1c_other" placeholder="Other / comment">
+    </div>
+
+    <div class="q" data-q="1d">
+      <p class="qn">1d. Antibiotic, first dose before referral: for the NP (PHC)</p>
+      <label class="opt"><input type="radio" name="1d" value="Ampicillin 2 g IV + gentamicin 80 mg IV/IM (CEmONC 2024)"><span>Ampicillin 2 g IV + gentamicin 80 mg IV/IM (CEmONC 2024)</span></label>
+      <label class="opt"><input type="radio" name="1d" value="Ampicillin 1 g IV + gentamicin 80 mg IM + metronidazole (MO handbook 2009)"><span>Ampicillin 1 g IV + gentamicin 80 mg IM + metronidazole (MO handbook 2009; give the metronidazole dose below)</span></label>
+      <label class="opt"><input type="radio" name="1d" value="Ceftriaxone/cefotaxime 1 g IV (+/- gentamicin)"><span>Ceftriaxone or cefotaxime 1 g IV (± gentamicin; say which below)</span></label>
+      <label class="opt"><input type="radio" name="1d" value="Ampicillin 1 g PO + metronidazole 400 mg PO + gentamicin 80 mg IM (SBA 2010)"><span>Ampicillin 1 g PO + metronidazole 400 mg PO + gentamicin 80 mg IM (SBA 2010; oral, which CEmONC 2024 advises against in shock)</span></label>
+      <label class="opt"><input type="radio" name="1d" value="No antibiotic; refer"><span>No antibiotic: refer</span></label>
+      <label class="opt"><input type="radio" name="1d" value="other"><span>Other</span></label>
+      <input type="text" name="1d_other" placeholder="Exact drug, dose, route (and metronidazole dose if any)">
+    </div>
+
+    <div class="q" data-q="1e">
+      <p class="qn">1e. Antibiotic, first dose before referral: for the CHO (sub-centre)</p>
+      <p class="why">The sub-centre stocks ampicillin, gentamicin and metronidazole tablets; it has no ceftriaxone, cefotaxime or IV metronidazole.</p>
+      <label class="opt"><input type="radio" name="1e" value="Same as NP (1d)"><span>Same as the NP (1d)</span></label>
+      <label class="opt"><input type="radio" name="1e" value="Gentamicin 80 mg IM only"><span>Gentamicin 80 mg IM only</span></label>
+      <label class="opt"><input type="radio" name="1e" value="Ampicillin + gentamicin (give route/dose)"><span>Ampicillin + gentamicin (give the route and dose below)</span></label>
+      <label class="opt"><input type="radio" name="1e" value="No antibiotic; refer"><span>No antibiotic: refer</span></label>
+      <label class="opt"><input type="radio" name="1e" value="other"><span>Other</span></label>
+      <input type="text" name="1e_other" placeholder="Exact drug, dose, route">
+    </div>
+
+    <div class="q" data-q="1f">
+      <p class="qn">1f. Gentamicin</p>
+      <p class="why">The SHC formulary note says "avoid in pregnancy", and the app counts a woman up to 6 weeks after delivery as pregnant for safety checks.</p>
+      <label class="opt"><input type="radio" name="1f" value="Fixed 80 mg single dose; OK postpartum"><span>Fixed 80 mg, single dose; acceptable after delivery</span></label>
+      <label class="opt"><input type="radio" name="1f" value="Weight-based 5 mg/kg single dose"><span>Weight-based, 5 mg/kg single dose</span></label>
+      <label class="opt"><input type="radio" name="1f" value="Not before referral"><span>Not before referral</span></label>
+      <input type="text" name="1f_other" placeholder="Other / comment">
+    </div>
+
+    <div class="q" data-q="1g">
+      <p class="qn">1g. IV fluids for hypotension</p>
+      <label class="opt"><input type="radio" name="1g" value="20 ml/kg crystalloid (MoHFW 2021)"><span>20 ml/kg Ringer's lactate or normal saline (MoHFW 2021)</span></label>
+      <label class="opt"><input type="radio" name="1g" value="30 ml/kg crystalloid (CEmONC 2024 / AMRTG)"><span>30 ml/kg (CEmONC 2024 / AMRTG)</span></label>
+      <label class="opt"><input type="radio" name="1g" value="Fixed 500 ml bolus, reassess, repeat once"><span>A fixed 500 ml bolus, reassess, may repeat once</span></label>
+      <label class="opt"><input type="radio" name="1g" value="other"><span>Other</span></label>
+      <div class="grid2">
+        <input type="text" name="1g_time" placeholder="Over how long? (e.g. 30 min)">
+        <input type="text" name="1g_cap" placeholder="Maximum before referral (e.g. 1 L, 3 L)">
+      </div>
+      <input type="text" name="1g_weight" placeholder="If the recorded weight looks wrong (e.g. 29 kg in an adult): what weight to use, or use a fixed volume?" style="margin-top:8px">
+      <input type="text" name="1g_other" placeholder="Other / comment" style="margin-top:8px">
+    </div>
+
+    <div class="q" data-q="1h">
+      <p class="qn">1h. Adult sepsis that is NOT related to pregnancy</p>
+      <p class="why">We found no official primary-care pre-referral regimen for adults. Today the app refers and advises IV access.</p>
+      <label class="opt"><input type="radio" name="1h" value="Keep: refer + IV access, no drug"><span>Keep as is: refer and advise IV access, no drug</span></label>
+      <label class="opt"><input type="radio" name="1h" value="Use the same regimen as maternal sepsis"><span>Use the same regimen as for maternal sepsis</span></label>
+      <label class="opt"><input type="radio" name="1h" value="I will write a site protocol"><span>I will write a site protocol</span></label>
+      <input type="text" name="1h_other" placeholder="Other / comment">
+    </div>
+
+    <div class="q" data-q="1i">
+      <p class="qn">1i. Anything to add to the transfer advice?</p>
+      <p class="why">For example: left lateral position, oxygen, keeping her warm, monitoring every 15 minutes, catheter or urine output, or what to send with her.</p>
+      <textarea name="1i" placeholder="Your advice"></textarea>
+    </div>
+
+    <h3>Decision 2 · Keep newborn emergency guidance out of adult plans</h3>
+    <div class="q" data-q="2">
+      <p class="qn">2. The app's search pulled a newborn emergency-triage passage (<a href="https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131850_stw_vol_3_20222.pdf" target="_blank" rel="noopener">ICMR STW Vol 3, 2022</a>, "Neonatal emergency triage assessment and management", PDF p.47) into this adult woman's plan, and it was cited for an adult IV fluid bolus. Proposal: label that passage "newborn only", so the app uses it only for babies.</p>
+      <label class="opt"><input type="radio" name="2" value="Agree: newborn only"><span>Agree: newborn only</span></label>
+      <label class="opt"><input type="radio" name="2" value="Leave as it is"><span>Leave as it is</span></label>
+      <label class="opt"><input type="radio" name="2" value="other"><span>Other</span></label>
+      <input type="text" name="2_other" placeholder="Other / comment">
+    </div>
+
+    <h3>Your details</h3>
+    <div class="grid2">
+      <input type="text" name="mo_name" placeholder="Name">
+      <input type="text" name="mo_role" placeholder="Designation and facility">
+      <input type="text" name="mo_reg" placeholder="Registration no. (optional)">
+      <input type="date" name="mo_date">
+    </div>
+    <textarea name="comments" placeholder="Any other comments" style="margin-top:10px"></textarea>
+  </section>
+
+  <section class="card">
+    <h2>Guideline links</h2>
+    <ol class="refs">
+      <li><a href="https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/sba_guidelines_for_skilled_attendance_at_birth.pdf" target="_blank" rel="noopener">Guidelines for Antenatal Care and Skilled Attendance at Birth by ANMs/LHVs/SNs (SBA Guidelines)</a> — MoHFW, 2010. Puerperal sepsis: Module II, printed p.84.</li>
+      <li><a href="https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/trainees_handbook_for_training_of_mos_in_preg_care.pdf" target="_blank" rel="noopener">Trainees' Handbook for Training of Medical Officers in Pregnancy Care and Management of Common Obstetric Complications</a> — MoHFW, 2009. Puerperal sepsis flowchart: printed p.84.</li>
+      <li><a href="https://nhsrcindia.org/sites/default/files/2022-05/Emergency%20Module%20for%20MO_Inside_23%20Mar%202022.pdf" target="_blank" rel="noopener">Training Manual on Management of Common Emergencies, Burns and Trauma for Medical Officers at AB-HWC</a> — MoHFW / NHSRC, 2021. Septic shock: printed p.79–80.</li>
+      <li><a href="https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/Revised_CEmONC_curriculum_2024-Part_1.pdf" target="_blank" rel="noopener">Revised CEmONC Curriculum 2024, Part 1</a> — MoHFW, June 2024. Shock: Ch. 7, printed p.128–131 (scanned PDF).</li>
+      <li><a href="https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/Revised_CEmONC_curriculum_2024-Part_2.pdf" target="_blank" rel="noopener">Revised CEmONC Curriculum 2024, Part 2</a> — MoHFW, June 2024. Puerperal sepsis and metritis: Ch. 12, printed p.59–64 (scanned PDF).</li>
+      <li><a href="https://nhm.gov.in/New_Updates_2018/Scope%20of%20Practice%20Document%20.pdf" target="_blank" rel="noopener">Scope of Practice for Midwifery Educator and Nurse Practitioner Midwife</a> — MoHFW, June 2021. Medications: Annexure 2, printed p.10.</li>
+      <li><a href="https://nhm.gov.in/New_Update-2022-23/MH/GUIDELINES-%20MH/CHO_Booklet_%20Maternal_Health-English.pdf" target="_blank" rel="noopener">Maternal Health Guidance Booklet for CHOs</a> — MoHFW, 2022.</li>
+      <li>ICMR Treatment Guidelines for Antimicrobial Use (AMRTG) 2025: <a href="https://amrtg.icmr.org.in/section-info/3/4" target="_blank" rel="noopener">§3.4 Sepsis syndrome</a> · <a href="https://amrtg.icmr.org.in/section-info/6/8" target="_blank" rel="noopener">§6.8 Puerperal sepsis</a>.</li>
+      <li><a href="https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131850_stw_vol_3_20222.pdf" target="_blank" rel="noopener">ICMR Standard Treatment Workflows, Vol 3 (2022)</a> — neonatal emergency triage: PDF p.47.</li>
+      <li><a href="https://nhm.gov.in/index1.php?lang=1&amp;level=3&amp;sublinkid=839&amp;lid=377" target="_blank" rel="noopener">NHM Maternal Health guidelines list</a> — where the MoHFW documents above are published.</li>
+    </ol>
+  </section>
+
+  <p class="small">Sources were read from the official PDFs (nhm.gov.in, nhsrcindia.org). The page numbers are the printed numbers on each page. The CEmONC 2024 volumes are scanned images and were read from the page images. CDST never adds a drug or dose that a clinician has not approved.</p>
+</main>
+
+<div class="bar">
+  <button id="copy">Copy answers</button>
+  <button id="dl" class="ghost">Download (.txt)</button>
+  <button id="print" class="ghost">Print / PDF</button>
+  <button id="clear" class="ghost">Clear</button>
+</div>
+<div id="toast"></div>
+
+<script>
+(function () {
+  var KEY = 'cdst_mo_sbar_maternal_sepsis_v1';
+  var form = document.getElementById('form');
+  var fields = form.querySelectorAll('input, textarea');
+
+  function save() {
+    var data = {};
+    fields.forEach(function (el) {
+      if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; }
+      else if (el.type === 'checkbox') { (data[el.name] = data[el.name] || []); if (el.checked) data[el.name].push(el.value); }
+      else data[el.name] = el.value;
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+    return data;
+  }
+  function load() {
+    var data = {};
+    try { data = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+    fields.forEach(function (el) {
+      var v = data[el.name];
+      if (v == null) return;
+      if (el.type === 'radio') el.checked = (v === el.value);
+      else if (el.type === 'checkbox') el.checked = Array.isArray(v) && v.indexOf(el.value) >= 0;
+      else el.value = v;
+    });
+  }
+  function questionText(q) {
+    var p = form.querySelector('[data-q="' + q + '"] .qn');
+    return p ? p.textContent.trim() : q;
+  }
+  function answers() {
+    var d = save();
+    var pick = function (k) {
+      var v = d[k];
+      var other = d[k + '_other'];
+      if (Array.isArray(v)) v = v.join('; ');
+      if (v === 'other') v = 'Other';
+      return [v || '(no answer)', other ? '— ' + other : ''].join(' ').trim();
+    };
+    var lines = [
+      'CDST — MO decision: pre-referral care for postpartum woman in septic shock (SBAR, 12 Nov 2026)',
+      'MO: ' + (d.mo_name || '') + ' | ' + (d.mo_role || '') + (d.mo_reg ? ' | Reg ' + d.mo_reg : '') + ' | Date: ' + (d.mo_date || ''),
+      '',
+      'DECISION 1 — Maternal (puerperal) sepsis with shock'
+    ];
+    ['1a', '1b', '1c', '1d', '1e', '1f', '1h'].forEach(function (q) { lines.push(questionText(q)); lines.push('  → ' + pick(q)); });
+    lines.push(questionText('1g'));
+    lines.push('  → ' + pick('1g'));
+    lines.push('     Over: ' + (d['1g_time'] || '-') + ' | Max: ' + (d['1g_cap'] || '-') + ' | If weight implausible: ' + (d['1g_weight'] || '-'));
+    lines.push(questionText('1i'));
+    lines.push('  → ' + (d['1i'] || '(no answer)'));
+    lines.push('', 'DECISION 2 — Newborn guidance in adult plans');
+    lines.push('  → ' + pick('2'));
+    lines.push('', 'Comments: ' + (d.comments || '-'));
+    return lines.join('\n');
+  }
+  function toast(msg) {
+    var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on');
+    setTimeout(function () { t.classList.remove('on'); }, 1800);
+  }
+
+  load();
+  form.addEventListener('input', save);
+  form.addEventListener('change', save);
+  document.getElementById('copy').onclick = function () {
+    var text = answers();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast('Answers copied'); }, function () { fallback(text); });
+    } else fallback(text);
+  };
+  function fallback(text) {
+    var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast('Answers copied'); } catch (e) { alert(text); }
+    document.body.removeChild(ta);
+  }
+  document.getElementById('dl').onclick = function () {
+    var blob = new Blob([answers()], { type: 'text/plain' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'CDST_MO_decision_maternal_sepsis.txt'; document.body.appendChild(a); a.click(); a.remove();
+  };
+  document.getElementById('print').onclick = function () { window.print(); };
+  document.getElementById('clear').onclick = function () {
+    if (!confirm('Clear all answers?')) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    fields.forEach(function (el) { if (el.type === 'radio' || el.type === 'checkbox') el.checked = false; else el.value = ''; });
+  };
+})();
+</script>
+</body>
+</html>
