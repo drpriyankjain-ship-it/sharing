@@ -59,7 +59,7 @@
 <main>
   <p class="small">CDST: Clinical Decision Support Tool · Request for Medical Director sign-off · 13 Nov 2026</p>
   <h1>Sign-off of the treatment guidelines used by CDST</h1>
-  <p class="sub">About 15–20 minutes. Your answers stay on this device until you press <b>Copy answers</b> or <b>Download</b> and send them back. You can close the page and come back; your answers are kept.</p>
+  <p class="sub">About 15–20 minutes. When you are done, press <b>Send by email</b>: your email app opens with the answers filled in, and you press Send. Until then your answers stay on this device. You can close the page and come back; your answers are kept.</p>
 
   <section class="card">
     <h2>What you are signing off</h2>
@@ -123,8 +123,9 @@
 
 <div class="bar">
   <span id="progress"></span>
-  <button type="button" id="copy">Copy answers</button>
-  <button type="button" id="dl">Download</button>
+  <button type="button" id="mail">Send by email</button>
+  <button type="button" class="ghost" id="copy">Copy answers</button>
+  <button type="button" class="ghost" id="dl">Download</button>
   <button type="button" class="ghost" id="print">Print</button>
   <button type="button" class="ghost" id="clear">Clear</button>
 </div>
@@ -134,28 +135,28 @@
 (function () {
   var A22 = 'https://amrtg.icmr.org.in/archive/2022/';
   var DOCS = [
-    { id: 'stw1', title: 'Standard Treatment Workflows of India, Vol 1', meta: 'ICMR · October 2026 re-upload of the 2019 edition (21 workflows revised 2025–26; hypertension and dialysis pages added)',
+    { id: 'stw1', short: 'STW Vol 1 (2026)', title: 'Standard Treatment Workflows of India, Vol 1', meta: 'ICMR · October 2026 re-upload of the 2019 edition (21 workflows revised 2025–26; hypertension and dialysis pages added)',
       url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1793170680_1725444938_stw_manual_v1_stw_i.pdf',
       use: 'Treatment plans and prescriptions. Also the basis of the app’s offline guide for fever and breathlessness.' },
-    { id: 'stw3', title: 'Standard Treatment Workflows of India, Vol 3', meta: 'ICMR · 2022',
+    { id: 'stw3', short: 'STW Vol 3 (2022)', title: 'Standard Treatment Workflows of India, Vol 3', meta: 'ICMR · 2022',
       url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131850_stw_vol_3_20222.pdf', use: 'Treatment plans and prescriptions.' },
-    { id: 'stw4', title: 'Standard Treatment Workflows of India, Vol 4', meta: 'ICMR · 2024',
+    { id: 'stw4', short: 'STW Vol 4 (2024)', title: 'Standard Treatment Workflows of India, Vol 4', meta: 'ICMR · 2024',
       url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131852_stw_vol_4_2024.pdf', use: 'Treatment plans and prescriptions.' },
-    { id: 'stwtb', title: 'Standard Treatment Workflows: pulmonary and extrapulmonary tuberculosis', meta: 'ICMR · 2024',
+    { id: 'stwtb', short: 'STW TB (2024)', title: 'Standard Treatment Workflows: pulmonary and extrapulmonary tuberculosis', meta: 'ICMR · 2024',
       url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131854_icmr_stw_ptb_eptb.pdf', use: 'Suspected and known TB: testing, treatment and referral.' },
-    { id: 'stwhtn', title: 'Standard Treatment Workflow: Hypertension in Adults', meta: 'ICMR · May 2026',
+    { id: 'stwhtn', short: 'STW Hypertension (2026)', title: 'Standard Treatment Workflow: Hypertension in Adults', meta: 'ICMR · May 2026',
       url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1778941063_hypertensioninadults_final.pdf', use: 'Diagnosis thresholds and treatment steps for hypertension.' },
-    { id: 'amr25', title: 'Treatment Guidelines for Antimicrobial Use in Common Syndromes (AMRTG)', meta: 'ICMR · 2025 edition (website, no PDF)',
+    { id: 'amr25', short: 'AMRTG 2025', title: 'Treatment Guidelines for Antimicrobial Use in Common Syndromes (AMRTG)', meta: 'ICMR · 2025 edition (website, no PDF)',
       url: 'https://amrtg.icmr.org.in', use: 'The first source for antibiotics: whether to treat, which drug, and for how long. Hospital-level chapters are used only to describe what happens after referral.' },
-    { id: 'a22child', retained: true, title: 'AMRTG 2022: children’s doses and conditions', meta: 'ICMR · 2022 edition (archived)', url: A22,
+    { id: 'a22child', short: 'AMRTG 2022 children', retained: true, title: 'AMRTG 2022: children’s doses and conditions', meta: 'ICMR · 2022 edition (archived)', url: A22,
       use: 'Children’s antibiotic doses, UTI in children, and otitis media by age.', why: 'The 2025 edition has no children’s tables.' },
-    { id: 'a22sti', retained: true, title: 'AMRTG 2022: pelvic infections, STIs and vaginal discharge', meta: 'ICMR · 2022 edition (archived)', url: A22,
+    { id: 'a22sti', short: 'AMRTG 2022 STI', retained: true, title: 'AMRTG 2022: pelvic infections, STIs and vaginal discharge', meta: 'ICMR · 2022 edition (archived)', url: A22,
       use: 'Syndromic treatment of STIs, vaginal discharge and pelvic infections.', why: 'The 2025 pages on these topics fail to load (server error).' },
-    { id: 'a22scrub', retained: true, title: 'AMRTG 2022: scrub typhus and leptospirosis', meta: 'ICMR · 2022 edition (archived)', url: A22,
+    { id: 'a22scrub', short: 'AMRTG 2022 scrub/lepto', retained: true, title: 'AMRTG 2022: scrub typhus and leptospirosis', meta: 'ICMR · 2022 edition (archived)', url: A22,
       use: 'Treatment of scrub typhus and other rickettsial infections, and leptospirosis.', why: 'The 2025 edition has no page on either.' },
-    { id: 'a22mal', retained: true, title: 'AMRTG 2022: antimalarial doses and giardiasis', meta: 'ICMR · 2022 edition (archived)', url: A22,
+    { id: 'a22mal', short: 'AMRTG 2022 malaria/giardia', retained: true, title: 'AMRTG 2022: antimalarial doses and giardiasis', meta: 'ICMR · 2022 edition (archived)', url: A22,
       use: 'Antimalarial drug doses for vivax and falciparum malaria, and treatment of giardiasis.', why: 'The 2025 edition has no antimalarial dose pages and no giardiasis entry. See also Q3 (national malaria drug policy).' },
-    { id: 'a22gaps', retained: true, title: 'AMRTG 2022: osteomyelitis and C. difficile infection', meta: 'ICMR · 2022 edition (archived)', url: A22,
+    { id: 'a22gaps', short: 'AMRTG 2022 osteo/C.diff', retained: true, title: 'AMRTG 2022: osteomyelitis and C. difficile infection', meta: 'ICMR · 2022 edition (archived)', url: A22,
       use: 'Only to describe hospital care after referral; the nurse does not treat these.', why: 'The 2025 pages on these topics fail to load (server error).' }
   ];
   var CHOICES = ['Approve', 'Approve with conditions', 'Do not approve'];
@@ -215,8 +216,7 @@
       '', 'Q1: EACH DOCUMENT'
     ];
     DOCS.forEach(function (x, i) {
-      L.push((i + 1) + '. ' + x.title + ' (' + x.meta.split(' · ')[1] + ')');
-      L.push('   → ' + (d['d_' + x.id] || '(no answer)') + (d['d_' + x.id + '_note'] ? ' | ' + d['d_' + x.id + '_note'] : ''));
+      L.push((i + 1) + '. ' + x.short + ': ' + (d['d_' + x.id] || '(no answer)') + (d['d_' + x.id + '_note'] ? ' | ' + d['d_' + x.id + '_note'] : ''));
     });
     L.push('', 'Q2: ORDER OF PRECEDENCE');
     L.push('   → ' + (d.q2 || '(no answer)') + (d.q2_note ? ' | ' + d.q2_note : ''));
@@ -244,6 +244,20 @@
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () { toast('Answers copied'); }, function () { fallback(text); });
     } else fallback(text);
+  };
+  var MAIL_TO = 'priyank@frontlineknowledgeproject.org';
+  document.getElementById('mail').onclick = function () {
+    var text = answers();
+    var subject = 'CDST treatment guideline sign-off' + (document.getElementById('md_name').value ? ': ' + document.getElementById('md_name').value : '');
+    var body = text;
+    // Some mail apps cut off long mailto links, so for long answers copy them and ask for a paste instead.
+    if (encodeURIComponent(text).length > 1800) {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).catch(function () { fallback(text); });
+      else fallback(text);
+      body = 'My answers have been copied. Please paste them here (Ctrl+V or long-press > Paste) before sending.\n\n';
+      alert('Your email app will open now.\n\nYour answers are long, so they have been copied: paste them into the email body (Ctrl+V or long-press > Paste), then press Send.');
+    }
+    window.location.href = 'mailto:' + MAIL_TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   };
   document.getElementById('dl').onclick = function () {
     var blob = new Blob([answers()], { type: 'text/plain' });
