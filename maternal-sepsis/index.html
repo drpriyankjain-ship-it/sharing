@@ -318,12 +318,8 @@
     if (encodeURIComponent(text).length > 1800) {
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).catch(function () { fallback(text); });
       else fallback(text);
-      body = 'My answers have been copied. Please paste them here (Ctrl+V or long-press > Paste) before sending.
-
-';
-      alert('Your email app will open now.
-
-Your answers are long, so they have been copied: paste them into the email body (Ctrl+V or long-press > Paste), then press Send.');
+      body = 'My answers have been copied. Please paste them here (Ctrl+V or long-press > Paste) before sending.\n\n';
+      alert('Your email app will open now.\n\nYour answers are long, so they have been copied: paste them into the email body (Ctrl+V or long-press > Paste), then press Send.');
     }
     window.location.href = 'mailto:' + MAIL_TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   };
