@@ -54,7 +54,7 @@
 <main>
   <p class="small">CDST — Clinical Decision Support Tool · Request for Medical Officer decision · 12 Nov 2026</p>
   <h1>Pre-referral care for a postpartum woman in septic shock</h1>
-  <p class="sub">SBAR summary of a quality review, with two decisions for you. It takes about 10 minutes. Your answers stay on this device until you press <b>Copy answers</b> or <b>Download</b> and send them back.</p>
+  <p class="sub">SBAR summary of a quality review, with two decisions for you. It takes about 10 minutes. Your answers stay on this device until you press <b>Send by email</b> (your email app opens with the answers filled in, and you press Send). <b>Copy answers</b> and <b>Download</b> also work.</p>
 
   <section class="card S">
     <h2><span class="tag">S</span> Situation</h2>
@@ -249,7 +249,8 @@
 </main>
 
 <div class="bar">
-  <button id="copy">Copy answers</button>
+  <button id="mail">Send by email</button>
+  <button id="copy" class="ghost">Copy answers</button>
   <button id="dl" class="ghost">Download (.txt)</button>
   <button id="print" class="ghost">Print / PDF</button>
   <button id="clear" class="ghost">Clear</button>
@@ -332,6 +333,25 @@
     try { document.execCommand('copy'); toast('Answers copied'); } catch (e) { alert(text); }
     document.body.removeChild(ta);
   }
+  var MAIL_TO = 'priyank@frontlineknowledgeproject.org';
+  document.getElementById('mail').onclick = function () {
+    var text = answers();
+    var nm = form.elements['mo_name'] ? form.elements['mo_name'].value : '';
+    var subject = 'CDST MO decision: maternal sepsis pre-referral' + (nm ? ': ' + nm : '');
+    var body = text;
+    // Some mail apps cut off long mailto links, so for long answers copy them and ask for a paste instead.
+    if (encodeURIComponent(text).length > 1800) {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).catch(function () { fallback(text); });
+      else fallback(text);
+      body = 'My answers have been copied. Please paste them here (Ctrl+V or long-press > Paste) before sending.
+
+';
+      alert('Your email app will open now.
+
+Your answers are long, so they have been copied: paste them into the email body (Ctrl+V or long-press > Paste), then press Send.');
+    }
+    window.location.href = 'mailto:' + MAIL_TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  };
   document.getElementById('dl').onclick = function () {
     var blob = new Blob([answers()], { type: 'text/plain' });
     var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
