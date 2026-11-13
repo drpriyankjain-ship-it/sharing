@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Treatment Guideline Sign-off</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1c2430; --muted: #5b6676; --line: #dde2e8;
+    --accent: #0d7a6f; --accent-soft: #e3f3f1; --warn: #9a5b00; --warn-soft: #fff4e0;
+    --ok: #1d7a3a; --cond: #9a5b00; --no: #b0352f;
+  }
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 90px; }
+  h1 { font-size: 1.45rem; line-height: 1.25; margin: 6px 0 4px; }
+  h2 { font-size: 1.15rem; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+  h3 { font-size: 1.02rem; margin: 0 0 2px; }
+  p { margin: 6px 0; }
+  .sub { color: var(--muted); margin: 0 0 18px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin: 14px 0; }
+  .tag { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 6px; border-radius: 8px; color: #fff; background: var(--accent); font-weight: 700; flex: none; }
+  ul { margin: 6px 0; padding-left: 20px; } li { margin: 3px 0; }
+  .note { background: var(--warn-soft); border-left: 4px solid var(--warn); padding: 8px 12px; border-radius: 6px; margin: 10px 0; }
+  .doc { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 14px; }
+  .doc:first-of-type { border-top: 0; margin-top: 4px; padding-top: 0; }
+  .meta { color: var(--muted); font-size: 0.92rem; margin: 0 0 4px; }
+  .use { font-size: 0.93rem; margin: 4px 0 8px; }
+  .pill { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); margin-left: 6px; vertical-align: 2px; }
+  .choices { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .choices label { display: flex; gap: 6px; align-items: center; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; font-size: 0.95rem; }
+  .choices label:hover { border-color: var(--accent); }
+  .choices label:has(input[value="Approve"]:checked) { border-color: var(--ok); background: #e6f4ea; }
+  .choices label:has(input[value="Approve with conditions"]:checked) { border-color: var(--cond); background: var(--warn-soft); }
+  .choices label:has(input[value="Do not approve"]:checked) { border-color: var(--no); background: #fbe9e7; }
+  label.opt { display: flex; gap: 10px; align-items: flex-start; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; margin: 6px 0; cursor: pointer; }
+  label.opt:hover { border-color: var(--accent); }
+  label.opt input { margin-top: 5px; flex: none; }
+  .qn { font-weight: 700; }
+  .why { color: var(--muted); font-size: 0.93rem; }
+  textarea, input[type=text], input[type=date] { width: 100%; font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  textarea { min-height: 52px; resize: vertical; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+  .grid2 label { font-size: 0.9rem; color: var(--muted); display: block; }
+  @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } }
+  .bar { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--line); padding: 10px 16px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  button { font: inherit; border: 0; border-radius: 8px; padding: 9px 14px; background: var(--accent); color: #fff; cursor: pointer; }
+  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  #progress { align-self: center; color: var(--muted); font-size: 0.9rem; }
+  #toast { position: fixed; left: 50%; bottom: 70px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  #toast.on { opacity: 1; }
+  .small { font-size: 0.88rem; color: var(--muted); }
+  a { color: var(--accent); text-underline-offset: 2px; overflow-wrap: anywhere; }
+  @media print { .bar, #toast { display: none; } body { background: #fff; } .doc { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="small">CDST: Clinical Decision Support Tool · Request for Medical Director sign-off · 13 Nov 2026</p>
+  <h1>Sign-off of the treatment guidelines used by CDST</h1>
+  <p class="sub">About 15–20 minutes. Your answers stay on this device until you press <b>Copy answers</b> or <b>Download</b> and send them back. You can close the page and come back; your answers are kept.</p>
+
+  <section class="card">
+    <h2>What you are signing off</h2>
+    <p>CDST is a mobile app for nurses (Community Health Officers at sub-centres and nurse practitioners at PHCs) in places where patients have no direct access to a doctor. The nurse records the consultation. The app drafts a triage decision, a treatment plan and a prescription. <b>A remote doctor reviews every plan before anything is dispensed or the patient is sent home.</b></p>
+    <p>When the app drafts the treatment plan, it searches the national treatment guidelines listed below and bases the prescription on what they recommend. It does not use them for history taking or diagnosis. Each guideline was transcribed page by page into the app.</p>
+    <p>For each document we ask whether you approve it as a source for this purpose. Please also tell us whether you agree with the order used when two documents disagree (Q2), and whether we should add any national programme guideline (Q3).</p>
+    <div class="note">Five sections come from the <b>2022 edition</b> of the ICMR antimicrobial guidelines. They are kept only because the 2025 edition has no content on those topics, or its pages fail to load. Each will be removed once a newer edition covers it.</div>
+  </section>
+
+  <form id="form" onsubmit="return false">
+    <section class="card">
+      <h2><span class="tag">Q1</span> Each document</h2>
+      <p class="why">For each one: Approve, Approve with conditions, or Do not approve. Add a comment for any condition, concern or reason.</p>
+      <div id="docs"></div>
+    </section>
+
+    <section class="card" data-q="q2">
+      <h2><span class="tag">Q2</span> When documents disagree</h2>
+      <p class="qn">Do you agree with this order of precedence?</p>
+      <ol>
+        <li><b>Antibiotics</b> (whether to treat, which drug, how long): <b>ICMR AMRTG 2025</b> comes first.</li>
+        <li><b>Everything else</b> (non-antibiotic drugs, doses, supportive care, when to refer): the <b>ICMR Standard Treatment Workflows</b> come first.</li>
+        <li>The <b>retained AMRTG 2022 sections</b> are used only where AMRTG 2025 has no content on the topic.</li>
+      </ol>
+      <label class="opt"><input type="radio" name="q2" value="Agree"> Agree</label>
+      <label class="opt"><input type="radio" name="q2" value="Agree with changes"> Agree with changes (describe below)</label>
+      <label class="opt"><input type="radio" name="q2" value="Disagree"> Disagree; a different order should be used (describe below)</label>
+      <textarea name="q2_note" placeholder="Changes, or the order you prefer"></textarea>
+    </section>
+
+    <section class="card" data-q="q3">
+      <h2><span class="tag">Q3</span> National programme guidelines to add</h2>
+      <p class="qn">Should any of these be added as a source of their own?</p>
+      <p class="why">Today these topics are covered only as far as the ICMR Standard Treatment Workflows and AMRTG cover them. Tick each one that should be added.</p>
+      <label class="opt"><input type="checkbox" name="q3" value="National Drug Policy on Malaria (NCVBDC)"> <span><b>National Drug Policy on Malaria</b> (NCVBDC / NVBDCP): antimalarial regimens and doses. It would replace the retained AMRTG 2022 malaria section.</span></label>
+      <label class="opt"><input type="checkbox" name="q3" value="National Guidelines for Rabies Prophylaxis (NCDC)"> <span><b>National Guidelines for Rabies Prophylaxis</b> (NCDC): animal-bite wound care, vaccine and immunoglobulin.</span></label>
+      <label class="opt"><input type="checkbox" name="q3" value="Snakebite management protocol (MoHFW)"> <span><b>Snakebite management protocol</b> (MoHFW): first aid, signs of envenomation, anti-snake venom and referral.</span></label>
+      <label class="opt"><input type="checkbox" name="q3" value="IMNCI / F-IMNCI (MoHFW)"> <span><b>IMNCI / F-IMNCI</b> (MoHFW): assessment and treatment of sick newborns and children under 5.</span></label>
+      <label class="opt"><input type="checkbox" name="q3" value="MoHFW maternal health guidelines"> <span><b>MoHFW maternal health guidelines</b>: antenatal and postnatal care, postpartum haemorrhage, pre-eclampsia and eclampsia, maternal sepsis.</span></label>
+      <label class="opt"><input type="checkbox" name="q3" value="Anemia Mukt Bharat (MoHFW)"> <span><b>Anemia Mukt Bharat</b> (MoHFW): iron and folic acid dosing by age group and pregnancy.</span></label>
+      <label class="opt"><input type="checkbox" name="q3" value="NTEP guidelines (MoHFW)"> <span><b>National TB Elimination Programme (NTEP) guidelines</b>: testing, regimens and follow-up beyond the ICMR TB workflow.</span></label>
+      <label class="opt"><input type="checkbox" name="q3" value="None needed"> <span>None needed: the ICMR documents are enough.</span></label>
+      <p class="qn" style="margin-top:12px">Any other national guideline we should add?</p>
+      <textarea name="q3_other" placeholder="Name, issuer and year, and what it should be used for"></textarea>
+    </section>
+
+    <section class="card" data-q="sign">
+      <h2><span class="tag">✓</span> Sign-off</h2>
+      <div class="grid2">
+        <div><label for="md_name">Name</label><input type="text" id="md_name" name="md_name"></div>
+        <div><label for="md_role">Designation</label><input type="text" id="md_role" name="md_role"></div>
+        <div><label for="md_reg">Medical registration number and council</label><input type="text" id="md_reg" name="md_reg"></div>
+        <div><label for="md_date">Date</label><input type="date" id="md_date" name="md_date"></div>
+      </div>
+      <label class="opt" style="margin-top:12px"><input type="checkbox" name="declare" value="yes"> <span>I have reviewed the documents listed above. My approvals, conditions and comments are as recorded on this form.</span></label>
+      <p class="qn" style="margin-top:12px">Any other comments</p>
+      <textarea name="comments"></textarea>
+    </section>
+  </form>
+</main>
+
+<div class="bar">
+  <span id="progress"></span>
+  <button type="button" id="copy">Copy answers</button>
+  <button type="button" id="dl">Download</button>
+  <button type="button" class="ghost" id="print">Print</button>
+  <button type="button" class="ghost" id="clear">Clear</button>
+</div>
+<div id="toast"></div>
+
+<script>
+(function () {
+  var A22 = 'https://amrtg.icmr.org.in/archive/2022/';
+  var DOCS = [
+    { id: 'stw1', title: 'Standard Treatment Workflows of India, Vol 1', meta: 'ICMR · October 2026 re-upload of the 2019 edition (21 workflows revised 2025–26; hypertension and dialysis pages added)',
+      url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1793170680_1725444938_stw_manual_v1_stw_i.pdf',
+      use: 'Treatment plans and prescriptions. Also the basis of the app’s offline guide for fever and breathlessness.' },
+    { id: 'stw3', title: 'Standard Treatment Workflows of India, Vol 3', meta: 'ICMR · 2022',
+      url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131850_stw_vol_3_20222.pdf', use: 'Treatment plans and prescriptions.' },
+    { id: 'stw4', title: 'Standard Treatment Workflows of India, Vol 4', meta: 'ICMR · 2024',
+      url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131852_stw_vol_4_2024.pdf', use: 'Treatment plans and prescriptions.' },
+    { id: 'stwtb', title: 'Standard Treatment Workflows: pulmonary and extrapulmonary tuberculosis', meta: 'ICMR · 2024',
+      url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131854_icmr_stw_ptb_eptb.pdf', use: 'Suspected and known TB: testing, treatment and referral.' },
+    { id: 'stwhtn', title: 'Standard Treatment Workflow: Hypertension in Adults', meta: 'ICMR · May 2026',
+      url: 'https://www.icmr.gov.in/icmrobject/uploads/STWs/1778941063_hypertensioninadults_final.pdf', use: 'Diagnosis thresholds and treatment steps for hypertension.' },
+    { id: 'amr25', title: 'Treatment Guidelines for Antimicrobial Use in Common Syndromes (AMRTG)', meta: 'ICMR · 2025 edition (website, no PDF)',
+      url: 'https://amrtg.icmr.org.in', use: 'The first source for antibiotics: whether to treat, which drug, and for how long. Hospital-level chapters are used only to describe what happens after referral.' },
+    { id: 'a22child', retained: true, title: 'AMRTG 2022: children’s doses and conditions', meta: 'ICMR · 2022 edition (archived)', url: A22,
+      use: 'Children’s antibiotic doses, UTI in children, and otitis media by age.', why: 'The 2025 edition has no children’s tables.' },
+    { id: 'a22sti', retained: true, title: 'AMRTG 2022: pelvic infections, STIs and vaginal discharge', meta: 'ICMR · 2022 edition (archived)', url: A22,
+      use: 'Syndromic treatment of STIs, vaginal discharge and pelvic infections.', why: 'The 2025 pages on these topics fail to load (server error).' },
+    { id: 'a22scrub', retained: true, title: 'AMRTG 2022: scrub typhus and leptospirosis', meta: 'ICMR · 2022 edition (archived)', url: A22,
+      use: 'Treatment of scrub typhus and other rickettsial infections, and leptospirosis.', why: 'The 2025 edition has no page on either.' },
+    { id: 'a22mal', retained: true, title: 'AMRTG 2022: antimalarial doses and giardiasis', meta: 'ICMR · 2022 edition (archived)', url: A22,
+      use: 'Antimalarial drug doses for vivax and falciparum malaria, and treatment of giardiasis.', why: 'The 2025 edition has no antimalarial dose pages and no giardiasis entry. See also Q3 (national malaria drug policy).' },
+    { id: 'a22gaps', retained: true, title: 'AMRTG 2022: osteomyelitis and C. difficile infection', meta: 'ICMR · 2022 edition (archived)', url: A22,
+      use: 'Only to describe hospital care after referral; the nurse does not treat these.', why: 'The 2025 pages on these topics fail to load (server error).' }
+  ];
+  var CHOICES = ['Approve', 'Approve with conditions', 'Do not approve'];
+
+  var host = document.getElementById('docs');
+  DOCS.forEach(function (d, i) {
+    var div = document.createElement('div');
+    div.className = 'doc';
+    var html = '<h3>' + (i + 1) + '. ' + d.title + (d.retained ? '<span class="pill">retained 2022</span>' : '') + '</h3>' +
+      '<p class="meta">' + d.meta + ' · <a href="' + d.url + '" target="_blank" rel="noopener">open</a></p>' +
+      '<p class="use"><b>Used for:</b> ' + d.use + (d.why ? '<br><b>Why the 2022 edition:</b> ' + d.why : '') + '</p>' +
+      '<div class="choices">' + CHOICES.map(function (c) {
+        return '<label><input type="radio" name="d_' + d.id + '" value="' + c + '"> ' + c + '</label>';
+      }).join('') + '</div>' +
+      '<textarea name="d_' + d.id + '_note" placeholder="Conditions or comments (optional)"></textarea>';
+    div.innerHTML = html;
+    host.appendChild(div);
+  });
+
+  var KEY = 'cdst_md_guideline_signoff_v1';
+  var form = document.getElementById('form');
+  var fields = form.querySelectorAll('input, textarea');
+
+  function save() {
+    var data = {};
+    fields.forEach(function (el) {
+      if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; }
+      else if (el.type === 'checkbox') { (data[el.name] = data[el.name] || []); if (el.checked) data[el.name].push(el.value); }
+      else data[el.name] = el.value;
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+    progress(data);
+    return data;
+  }
+  function load() {
+    var data = {};
+    try { data = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+    fields.forEach(function (el) {
+      var v = data[el.name];
+      if (v == null) return;
+      if (el.type === 'radio') el.checked = (v === el.value);
+      else if (el.type === 'checkbox') el.checked = Array.isArray(v) && v.indexOf(el.value) >= 0;
+      else el.value = v;
+    });
+    progress(data);
+  }
+  function progress(d) {
+    var n = DOCS.filter(function (x) { return d['d_' + x.id]; }).length;
+    document.getElementById('progress').textContent = n + ' of ' + DOCS.length + ' documents answered';
+  }
+  function answers() {
+    var d = save();
+    var L = [
+      'CDST: Medical Director sign-off of treatment guidelines (form dated 13 Nov 2026)',
+      'Signed: ' + (d.md_name || '') + ' | ' + (d.md_role || '') + (d.md_reg ? ' | Reg ' + d.md_reg : '') + ' | Date: ' + (d.md_date || ''),
+      'Declaration ticked: ' + ((d.declare || []).length ? 'yes' : 'NO'),
+      '', 'Q1: EACH DOCUMENT'
+    ];
+    DOCS.forEach(function (x, i) {
+      L.push((i + 1) + '. ' + x.title + ' (' + x.meta.split(' · ')[1] + ')');
+      L.push('   → ' + (d['d_' + x.id] || '(no answer)') + (d['d_' + x.id + '_note'] ? ' | ' + d['d_' + x.id + '_note'] : ''));
+    });
+    L.push('', 'Q2: ORDER OF PRECEDENCE');
+    L.push('   → ' + (d.q2 || '(no answer)') + (d.q2_note ? ' | ' + d.q2_note : ''));
+    L.push('', 'Q3: NATIONAL PROGRAMME GUIDELINES TO ADD');
+    L.push('   → ' + ((d.q3 || []).length ? d.q3.join('; ') : '(none ticked)'));
+    if (d.q3_other) L.push('   Other: ' + d.q3_other);
+    L.push('', 'Comments: ' + (d.comments || '-'));
+    return L.join('\n');
+  }
+  function toast(msg) {
+    var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on');
+    setTimeout(function () { t.classList.remove('on'); }, 1800);
+  }
+  function fallback(text) {
+    var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast('Answers copied'); } catch (e) { alert(text); }
+    document.body.removeChild(ta);
+  }
+
+  load();
+  form.addEventListener('input', save);
+  form.addEventListener('change', save);
+  document.getElementById('copy').onclick = function () {
+    var text = answers();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast('Answers copied'); }, function () { fallback(text); });
+    } else fallback(text);
+  };
+  document.getElementById('dl').onclick = function () {
+    var blob = new Blob([answers()], { type: 'text/plain' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'CDST_guideline_signoff.txt'; document.body.appendChild(a); a.click(); a.remove();
+  };
+  document.getElementById('print').onclick = function () { window.print(); };
+  document.getElementById('clear').onclick = function () {
+    if (!confirm('Clear all answers?')) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    fields.forEach(function (el) { if (el.type === 'radio' || el.type === 'checkbox') el.checked = false; else el.value = ''; });
+    progress({});
+  };
+})();
+</script>
+</body>
+</html>
