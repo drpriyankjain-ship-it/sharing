@@ -310,13 +310,19 @@
   }
   var MAIL_TO = 'priyank@frontlineknowledgeproject.org';
   // Opens Gmail's compose page in the browser: works without an email-link handler on the computer.
+  // Gmail links have a length limit, so for very long answers copy them and ask for a paste instead.
   document.getElementById('gmail').onclick = function () {
     var text = answers();
-    var nmEl = form.querySelector('[name="mo_name"]');
-    var nm = nmEl ? nmEl.value : '';
+    var nm = (form.querySelector('[name="mo_name"]') || {}).value || '';
     var subject = 'CDST MO decision: maternal sepsis pre-referral' + (nm ? ': ' + nm : '');
-    var url = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(MAIL_TO) + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
-    window.open(url, '_blank', 'noopener');
+    var body = text;
+    if (encodeURIComponent(text).length > 6000) {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).catch(function () { fallback(text); });
+      else fallback(text);
+      body = 'My answers have been copied. Please paste them here (Ctrl+V or long-press > Paste) before sending.\n\n';
+      alert('Gmail will open now.\n\nYour answers are long, so they have been copied: paste them into the email body (Ctrl+V or long-press > Paste), then press Send.');
+    }
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(MAIL_TO) + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body), '_blank', 'noopener');
   };
   document.getElementById('dl').onclick = function () {
     var blob = new Blob([answers()], { type: 'text/plain' });
