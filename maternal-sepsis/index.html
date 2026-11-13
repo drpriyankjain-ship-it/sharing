@@ -54,7 +54,7 @@
 <main>
   <p class="small">CDST — Clinical Decision Support Tool · Request for Medical Officer decision · 12 Nov 2026</p>
   <h1>Pre-referral care for a postpartum woman in septic shock</h1>
-  <p class="sub">SBAR summary of a quality review, with two decisions for you. It takes about 10 minutes. Your answers stay on this device until you press <b>Send by email</b> (your email app opens with the answers filled in, and you press Send). <b>Copy answers</b> and <b>Download</b> also work.</p>
+  <p class="sub">SBAR summary of a quality review, with one decision for you. It takes about 10 minutes. Your answers stay on this device until you press <b>Send by email</b> (your email app opens with the answers filled in, and you press Send). <b>Copy answers</b> and <b>Download</b> also work.</p>
 
   <section class="card S">
     <h2><span class="tag">S</span> Situation</h2>
@@ -63,23 +63,12 @@
       <li><b>The patient:</b> a 28-year-old woman, about 5 weeks (34 days) after delivery. She had fever and body ache for 6–7 days, headache and severe weakness, and was pale.</li>
       <li><b>Her vitals:</b> temperature 38.5 °C, BP 81/45 mmHg, pulse 90/min, SpO₂ 100 %. Recorded weight 29.2 kg, height 140 cm (the weight may be a recording error).</li>
       <li><b>The app was right on risk and referral:</b> high risk and immediate referral in every run.</li>
-      <li><b>The pre-referral treatment it wrote was inconsistent.</b> No antibiotic was ever prescribed:</li>
+      <li style="color:#b00020"><b>The pre-referral treatment it wrote was inconsistent.</b> No antibiotic was ever prescribed.</li>
     </ul>
-    <div class="scroll"><table>
-      <tr><th>Mode</th><th>IV fluid bolus prescribed</th><th>First antibiotic dose prescribed</th></tr>
-      <tr><td>NP (PHC)</td><td><b>0 of 8 runs</b> (fluids only mentioned as advice)</td><td>0 of 8</td></tr>
-      <tr><td>CHO (sub-centre)</td><td>6 of 7 runs (500 ml Ringer's lactate or normal saline)</td><td>0 of 7</td></tr>
-    </table></div>
   </section>
 
   <section class="card B">
     <h2><span class="tag">B</span> Background</h2>
-    <h3>How the app writes a prescription</h3>
-    <ul>
-      <li><b>CHO mode:</b> may prescribe only from the sub-centre formulary (AAM-SHC Essential Medicines List 2026). Pre-referral injections for the CHO are already on hold until an MO decides which ones and at what dose. Until then the plan refers without them.</li>
-      <li><b>NP mode:</b> has no fixed list. It prescribes what the national guidelines loaded into the app recommend. Those are the ICMR Standard Treatment Workflows and the ICMR Antimicrobial Treatment Guidelines (AMRTG 2025).</li>
-      <li><b>Every plan waits for the remote doctor</b> (within 1 hour) before anything is dispensed. For a high-risk patient the app tells the nurse: "Do not dispense any medication until the doctor has decided … If the patient deteriorates, phone the doctor or refer immediately — do not wait."</li>
-    </ul>
     <h3>What the loaded guidelines contain</h3>
     <ul>
       <li><b>AMRTG 2025 sepsis and puerperal sepsis sections (<a href="https://amrtg.icmr.org.in/section-info/3/4" target="_blank" rel="noopener">§3.4</a>, <a href="https://amrtg.icmr.org.in/section-info/6/8" target="_blank" rel="noopener">§6.8</a>) are hospital-level.</b> They cover piperacillin-tazobactam or meropenem for 7–14 days, 30 ml/kg crystalloid and vasopressors. We have marked them as background for the referral, never as a prescription source.</li>
@@ -112,7 +101,6 @@
       <li><b>No source defines when to give it.</b> "General condition poor" is undefined. By the 2009 pulse rule, this woman (pulse 90, BP 81/45) would count as "non-toxic" despite being in shock.</li>
       <li><b>Weight-based fluids depend on the recorded weight.</b> At the recorded 29.2 kg, 20 ml/kg is 584 ml and 30 ml/kg is 876 ml; at 50 kg they are 1,000 and 1,500 ml.</li>
       <li><b>The app will not invent a regimen.</b> Until you choose one, the safe default stays: high risk, immediate referral, IV access advised, no drug.</li>
-      <li><b>A second, smaller problem:</b> the guideline search pulled a <i>newborn</i> emergency-triage passage (ICMR STW Vol 3, 2022) into this adult woman's plan. The CHO plan cited it as the source for the adult IV fluid bolus.</li>
     </ul>
   </section>
 
@@ -210,20 +198,9 @@
       <textarea name="1i" placeholder="Your advice"></textarea>
     </div>
 
-    <h3>Decision 2 · Keep newborn emergency guidance out of adult plans</h3>
-    <div class="q" data-q="2">
-      <p class="qn">2. The app's search pulled a newborn emergency-triage passage (<a href="https://www.icmr.gov.in/icmrobject/uploads/STWs/1733131850_stw_vol_3_20222.pdf" target="_blank" rel="noopener">ICMR STW Vol 3, 2022</a>, "Neonatal emergency triage assessment and management", PDF p.47) into this adult woman's plan, and it was cited for an adult IV fluid bolus. Proposal: label that passage "newborn only", so the app uses it only for babies.</p>
-      <label class="opt"><input type="radio" name="2" value="Agree: newborn only"><span>Agree: newborn only</span></label>
-      <label class="opt"><input type="radio" name="2" value="Leave as it is"><span>Leave as it is</span></label>
-      <label class="opt"><input type="radio" name="2" value="other"><span>Other</span></label>
-      <input type="text" name="2_other" placeholder="Other / comment">
-    </div>
-
     <h3>Your details</h3>
     <div class="grid2">
       <input type="text" name="mo_name" placeholder="Name">
-      <input type="text" name="mo_role" placeholder="Designation and facility">
-      <input type="text" name="mo_reg" placeholder="Registration no. (optional)">
       <input type="date" name="mo_date">
     </div>
     <textarea name="comments" placeholder="Any other comments" style="margin-top:10px"></textarea>
@@ -299,7 +276,7 @@
     };
     var lines = [
       'CDST — MO decision: pre-referral care for postpartum woman in septic shock (SBAR, 12 Nov 2026)',
-      'MO: ' + (d.mo_name || '') + ' | ' + (d.mo_role || '') + (d.mo_reg ? ' | Reg ' + d.mo_reg : '') + ' | Date: ' + (d.mo_date || ''),
+      'MO: ' + (d.mo_name || '') + ' | Date: ' + (d.mo_date || ''),
       '',
       'DECISION 1 — Maternal (puerperal) sepsis with shock'
     ];
@@ -309,8 +286,6 @@
     lines.push('     Over: ' + (d['1g_time'] || '-') + ' | Max: ' + (d['1g_cap'] || '-') + ' | If weight implausible: ' + (d['1g_weight'] || '-'));
     lines.push(questionText('1i'));
     lines.push('  → ' + (d['1i'] || '(no answer)'));
-    lines.push('', 'DECISION 2 — Newborn guidance in adult plans');
-    lines.push('  → ' + pick('2'));
     lines.push('', 'Comments: ' + (d.comments || '-'));
     return lines.join('\n');
   }
