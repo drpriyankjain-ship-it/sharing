@@ -54,7 +54,7 @@
 <main>
   <p class="small">CDST — Clinical Decision Support Tool · Request for Medical Officer decision · 12 Nov 2026</p>
   <h1>Pre-referral care for a postpartum woman in septic shock</h1>
-  <p class="sub">SBAR summary of a quality review, with one decision for you. It takes about 10 minutes. Your answers stay on this device until you press <b>Send by email</b> (your email app opens with the answers filled in, and you press Send). <b>Copy answers</b> and <b>Download</b> also work.</p>
+  <p class="sub">SBAR summary of a quality review, with one decision for you. It takes about 10 minutes. Your answers stay on this device until you press <b>Send via Gmail</b>: Gmail opens in a new tab with your answers filled in, and you press Send (you need to be signed in to Gmail). <b>Copy answers</b> and <b>Download</b> also work if you prefer another email.</p>
 
   <section class="card S">
     <h2><span class="tag">S</span> Situation</h2>
@@ -226,7 +226,7 @@
 </main>
 
 <div class="bar">
-  <button id="mail">Send by email</button>
+  <button id="gmail">Send via Gmail</button>
   <button id="copy" class="ghost">Copy answers</button>
   <button id="dl" class="ghost">Download (.txt)</button>
   <button id="print" class="ghost">Print / PDF</button>
@@ -309,20 +309,14 @@
     document.body.removeChild(ta);
   }
   var MAIL_TO = 'priyank@frontlineknowledgeproject.org';
-  document.getElementById('mail').onclick = function () {
+  // Opens Gmail's compose page in the browser: works without an email-link handler on the computer.
+  document.getElementById('gmail').onclick = function () {
     var text = answers();
     var nmEl = form.querySelector('[name="mo_name"]');
     var nm = nmEl ? nmEl.value : '';
     var subject = 'CDST MO decision: maternal sepsis pre-referral' + (nm ? ': ' + nm : '');
-    var body = text;
-    // Some mail apps cut off long mailto links, so for long answers copy them and ask for a paste instead.
-    if (encodeURIComponent(text).length > 1800) {
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).catch(function () { fallback(text); });
-      else fallback(text);
-      body = 'My answers have been copied. Please paste them here (Ctrl+V or long-press > Paste) before sending.\n\n';
-      alert('Your email app will open now.\n\nYour answers are long, so they have been copied: paste them into the email body (Ctrl+V or long-press > Paste), then press Send.');
-    }
-    window.location.href = 'mailto:' + MAIL_TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    var url = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(MAIL_TO) + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(text);
+    window.open(url, '_blank', 'noopener');
   };
   document.getElementById('dl').onclick = function () {
     var blob = new Blob([answers()], { type: 'text/plain' });
