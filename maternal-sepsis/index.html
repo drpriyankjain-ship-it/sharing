@@ -311,7 +311,8 @@
   var MAIL_TO = 'priyank@frontlineknowledgeproject.org';
   document.getElementById('mail').onclick = function () {
     var text = answers();
-    var nm = form.elements['mo_name'] ? form.elements['mo_name'].value : '';
+    var nmEl = form.querySelector('[name="mo_name"]');
+    var nm = nmEl ? nmEl.value : '';
     var subject = 'CDST MO decision: maternal sepsis pre-referral' + (nm ? ': ' + nm : '');
     var body = text;
     // Some mail apps cut off long mailto links, so for long answers copy them and ask for a paste instead.
