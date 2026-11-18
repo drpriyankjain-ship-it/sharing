@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escalation Rules Sign-off</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --ink:#1c2430; --muted:#5b6676; --line:#dde2e8; --accent:#0d7a6f; --accent-soft:#e3f3f1; --red-soft:#fdecea; color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:860px; margin:0 auto; padding:20px 16px 90px; }
+  h1 { font-size:1.45rem; line-height:1.25; margin:6px 0 4px; }
+  h2 { font-size:1.12rem; margin:0 0 8px; }
+  p { margin:6px 0; }
+  .sub { color:var(--muted); margin:0 0 18px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin:14px 0; }
+  .card.red { border-color:#f3b4ae; background:var(--red-soft); }
+  ul { margin:6px 0; padding-left:20px; } li { margin:3px 0; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; margin:8px 0; }
+  th, td { border:1px solid var(--line); padding:6px 8px; text-align:left; vertical-align:top; background:#fff; }
+  th { background:var(--accent-soft); }
+  .scroll { overflow-x:auto; }
+  .q { border-top:1px solid var(--line); padding-top:12px; margin-top:12px; }
+  .qn { font-weight:700; }
+  .why { color:var(--muted); font-size:.93rem; }
+  label.opt { display:inline-flex; gap:8px; align-items:center; padding:6px 12px; border:1px solid var(--line); border-radius:8px; margin:6px 8px 6px 0; cursor:pointer; background:#fff; }
+  label.opt:hover { border-color:var(--accent); }
+  textarea, input[type=text], input[type=date] { width:100%; font:inherit; color:inherit; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:8px 10px; }
+  textarea { min-height:56px; resize:vertical; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; }
+  @media (max-width:560px) { .grid2 { grid-template-columns:1fr; } }
+  .bar { position:sticky; bottom:0; background:var(--card); border-top:1px solid var(--line); padding:10px 16px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+  button { font:inherit; border:0; border-radius:8px; padding:9px 14px; background:var(--accent); color:#fff; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+  #toast { position:fixed; left:50%; bottom:70px; transform:translateX(-50%); background:var(--ink); color:var(--bg); padding:8px 14px; border-radius:8px; opacity:0; transition:opacity .2s; pointer-events:none; }
+  #toast.on { opacity:1; }
+  .small { font-size:.86rem; color:var(--muted); }
+  @media print { .bar, #toast { display:none; } body { background:#fff; } .card { break-inside:avoid; } }
+</style>
+</head>
+<body>
+<main id="form">
+  <p class="small">CDST — Clinical Decision Support Tool · Medical Officer sign-off · 18 Nov 2026</p>
+  <h1>Escalation rules: emergency triggers and safety rules</h1>
+  <p class="sub">These are the fixed rules the app applies to every consultation, after the AI and whatever the AI says. They can only make a case <b>more</b> urgent, never less. Please mark each section <b>Agree</b> or <b>Change</b>; it takes about 15 minutes. Your answers stay on this device until you press <b>Send via Gmail</b>: Gmail opens with your answers filled in, and you press Send. <b>Copy answers</b> and <b>Download</b> also work.</p>
+
+  <section class="card">
+    <h2>How the app uses these rules</h2>
+    <ul>
+      <li>The AI drafts a plan and a risk level: <b>LOW</b> (the patient can safely wait at the clinic, untreated, for up to 1 hour) or <b>HIGH</b> (needs the doctor first).</li>
+      <li>Then these rules run. <b>If any rule fires, the case becomes HIGH</b>, whatever the AI said.</li>
+      <li>Every plan, LOW or HIGH, waits for the remote doctor's decision before the nurse gives any medicine. The doctor is expected to decide within 1 hour; if not, the nurse phones the doctor.</li>
+      <li><b>New:</b> a few of these rules now mark a case as an <b>EMERGENCY</b> (section 1). Then the nurse phones the doctor at once instead of waiting.</li>
+    </ul>
+  </section>
+
+  <section class="card red">
+    <h2>1 · Emergency: phone the doctor now</h2>
+    <p>When one of these fires, the nurse sees in red at the top of the result: <b>"EMERGENCY — phone the doctor now; do not wait for the dashboard. Danger signs: … Give treatment only as the doctor tells you on the phone, and arrange transfer."</b> The doctor's decision on the phone counts, and the doctor records it in the portal afterwards. The nurse never gives treatment on the AI plan alone.</p>
+    <div class="scroll"><table><tr><th>Emergency trigger</th><th>Fires when (measured vital signs)</th></tr>
+<tr><td>Shock</td><td>Systolic BP &lt; 90 mmHg</td></tr>
+<tr><td>Hypoxia</td><td>SpO₂ &lt; 92 %</td></tr>
+<tr><td>Altered Consciousness</td><td>GCS &lt; 15</td></tr>
+<tr><td>Severe Hypoglycaemia</td><td>Blood glucose &lt; 54 mg/dL</td></tr>
+<tr><td>Respiratory Distress</td><td>Respiratory rate &gt; 30/min</td></tr>
+<tr><td>Respiratory Depression</td><td>Respiratory rate &lt; 10/min</td></tr>
+<tr><td>Possible Sepsis</td><td>Temperature ≥ 37.8 °C with RR &gt; 24, systolic BP &lt; 90 or GCS &lt; 15</td></tr>
+    </table></div>
+    <p class="small">Not emergencies, though they still make the case HIGH: systolic BP ≥ 180, heart rate &gt; 130 or &lt; 50, temperature &gt; 40.0 °C or &lt; 35.0 °C, glucose &gt; 300 mg/dL, and every diagnosis, medicine and patient rule below. Symptoms the AI records as red flags (for example "vomiting everything", "seizures") are free text, so they never trigger an emergency on their own; they still push the AI's risk level towards HIGH.</p>
+    <div class="q" data-q="1">
+      <p class="qn">Is this the right emergency list?</p><p class="why">For example: should seizures, inability to drink, or a very high blood pressure in pregnancy also mean “phone now”? Those need a new tick-box for the nurse, so say which ones.</p>
+      <label class="opt"><input type="radio" name="1" value="Agree"><span>Agree</span></label>
+      <label class="opt"><input type="radio" name="1" value="Change"><span>Change (say what below)</span></label>
+      <textarea name="1_other" placeholder="Changes or comments"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>2 · Vital signs that make a case HIGH</h2>
+    <div class="scroll"><table><tr><th>Sign</th><th>Threshold</th></tr>
+      <tr><td>SpO₂</td><td>&lt; 92 %</td></tr>
+      <tr><td>Systolic BP (low)</td><td>&lt; 90 mmHg</td></tr>
+      <tr><td>Systolic BP (high)</td><td>≥ 180 mmHg</td></tr>
+      <tr><td>Heart rate</td><td>&gt; 130 or &lt; 50 /min</td></tr>
+      <tr><td>Respiratory rate</td><td>&gt; 30 or &lt; 10 /min</td></tr>
+      <tr><td>Temperature</td><td>&gt; 40.0 °C or &lt; 35.0 °C</td></tr>
+      <tr><td>GCS</td><td>&lt; 15</td></tr>
+      <tr><td>Blood glucose</td><td>&lt; 54 or &gt; 300 mg/dL</td></tr>
+    </table></div>
+    <p class="small">These are adult values and apply at every age. Children have their own normal ranges for heart and breathing rate; the app does not yet adjust for age.</p>
+    <div class="q" data-q="2">
+      <p class="qn">Are these thresholds right?</p><p class="why">Including whether children need separate heart-rate and breathing-rate limits.</p>
+      <label class="opt"><input type="radio" name="2" value="Agree"><span>Agree</span></label>
+      <label class="opt"><input type="radio" name="2" value="Change"><span>Change (say what below)</span></label>
+      <textarea name="2_other" placeholder="Changes or comments"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>3 · Possible sepsis screen</h2>
+    <p>From the ICMR antimicrobial guideline's adult acute-fever protocol: <b>temperature ≥ 37.8 °C (100 °F) with any of RR &gt; 24/min, systolic BP &lt; 90 mmHg or GCS &lt; 15</b> means possible sepsis: hospitalise. Applied to adults and to patients whose age is unknown; not to a known child under 18, whose normal breathing rate is higher.</p>
+    <div class="q" data-q="3">
+      <p class="qn">Is the sepsis screen right?</p>
+      <label class="opt"><input type="radio" name="3" value="Agree"><span>Agree</span></label>
+      <label class="opt"><input type="radio" name="3" value="Change"><span>Change (say what below)</span></label>
+      <textarea name="3_other" placeholder="Changes or comments"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>4 · Diagnoses that always make a case HIGH</h2>
+    <p>Only when the problem is <b>new or acute</b>. An old, settled problem (for example a stroke years ago) does not escalate on its name alone. A plan that says "rule out X" still escalates.</p>
+    <div class="scroll"><table><tr><th>Group</th><th>Diagnoses</th></tr>
+<tr><td>Infectious/Systemic</td><td>sepsis; septic shock; severe malaria <span class="small">(Plasmodium falciparum with organ involvement)</span>; cerebral malaria; meningitis <span class="small">(All suspected bacterial meningitis)</span>; encephalitis; cholera <span class="small">(Severe dehydration — Plan C not responding)</span>; diphtheria <span class="small">(Bull neck or airway membrane)</span>; tetanus <span class="small">(Any stage with trismus or opisthotonus)</span>; rabies <span class="small">(After neurological onset)</span>; severe falciparum malaria <span class="small">(Wording of severe malaria (approved 2026-10-20))</span>; complicated malaria <span class="small">(Wording of severe malaria (approved 2026-10-20))</span>; complicated typhoid <span class="small">(Typhoid with complications (must-not-miss))</span>; complicated enteric fever <span class="small">(Typhoid with complications)</span>; enteric fever with complication <span class="small">(Typhoid with complications)</span>; kala-azar <span class="small">(Visceral leishmaniasis (must-not-miss))</span>; visceral leishmaniasis</td></tr>
+<tr><td>Obstetric/Gynaecological</td><td>eclampsia <span class="small">(Active or post-ictal)</span>; pre-eclampsia <span class="small">(Severe features only)</span>; ectopic pregnancy <span class="small">(Suspected or confirmed)</span>; antepartum haemorrhage; postpartum haemorrhage <span class="small">(&gt;500 mL vaginal / &gt;1000 mL CS)</span>; obstructed labour; postpartum sepsis; puerperal sepsis; placental abruption <span class="small">(Must-not-miss)</span>; abruptio placentae</td></tr>
+<tr><td>Cardiopulmonary</td><td>acute myocardial infarction <span class="small">(STEMI or suspected STEMI)</span>; unstable angina; acute pulmonary oedema; respiratory failure <span class="small">(Type I or II)</span>; anaphylaxis; aortic dissection; acute coronary syndrome <span class="small">(Wording of acute MI / unstable angina (approved 2026-10-20))</span>; wall mi <span class="small">(Inferior / anterior / lateral wall MI)</span>; severe pneumonia <span class="small">(Must-not-miss; also matches &quot;very severe pneumonia&quot;)</span>; acute severe asthma <span class="small">(Must-not-miss)</span>; tension pneumothorax <span class="small">(Must-not-miss)</span></td></tr>
+<tr><td>Neurological</td><td>stroke <span class="small">(Ischaemic or haemorrhagic. A remote stroke (e.g. central post-stroke pain, secondary-prevention lapse) is not this diagnosis)</span>; status epilepticus <span class="small">(Seizure &gt;5 min or recurrent without recovery)</span>; guillain-barré; acute flaccid paralysis <span class="small">(AFP — mandatory notification)</span>; cord compression <span class="small">(New onset paraplegia or tetraplegia)</span></td></tr>
+<tr><td>Metabolic/Endocrine</td><td>diabetic ketoacidosis; hyperosmolar hyperglycaemic state; addisonian crisis; adrenal crisis; severe hypoglycaemia <span class="small">(As a diagnosis; a measured glucose &lt; 54 mg/dL is a vital-sign trigger)</span></td></tr>
+<tr><td>Surgical/GI</td><td>acute abdomen <span class="small">(Perforation, torsion, ruptured aneurysm)</span>; bowel obstruction; intestinal obstruction; peritonitis; intussusception <span class="small">(Paediatric — current jelly stool)</span>; appendicitis <span class="small">(Acute appendicitis (must-not-miss); acute problems only)</span></td></tr>
+<tr><td>Paediatric</td><td>severe acute malnutrition <span class="small">(Must-not-miss)</span></td></tr>
+<tr><td>Toxicological</td><td>organophosphate <span class="small">(Organophosphate poisoning (must-not-miss))</span>; snake bite <span class="small">(Must-not-miss)</span></td></tr>
+    </table></div>
+    <p class="small">Common spellings and abbreviations of each are also matched (for example US spellings, "GBS", "acute MI").</p>
+    <div class="q" data-q="4">
+      <p class="qn">Is the diagnosis list right?</p><p class="why">Anything to add or remove?</p>
+      <label class="opt"><input type="radio" name="4" value="Agree"><span>Agree</span></label>
+      <label class="opt"><input type="radio" name="4" value="Change"><span>Change (say what below)</span></label>
+      <textarea name="4_other" placeholder="Changes or comments"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>5 · Medicines that make a case HIGH (supervised administration)</h2>
+    <div class="scroll"><table><tr><th>Medicine</th><th>Why</th></tr>
+<tr><td>artesunate</td><td>IV/IM — requires trained nurse or doctor</td></tr>
+<tr><td>quinine</td><td>IV infusion — risk of arrhythmia and hypoglycaemia</td></tr>
+<tr><td>ceftriaxone</td><td>IV/IM — requires prescription and monitoring</td></tr>
+<tr><td>oxytocin</td><td>IV infusion — dose-critical, uterine hyperstimulation risk</td></tr>
+<tr><td>magnesium sulphate</td><td>IV/IM — eclampsia treatment, toxicity risk</td></tr>
+<tr><td>dexamethasone</td><td>IV/IM — requires clear medical indication</td></tr>
+<tr><td>adrenaline</td><td>IM/IV — anaphylaxis or cardiac arrest only</td></tr>
+<tr><td>morphine</td><td>Controlled drug — doctor prescription mandatory</td></tr>
+<tr><td>diazepam</td><td>IV/IM/PR — status epilepticus, controlled drug</td></tr>
+<tr><td>phenobarbitone</td><td>IV/IM — status epilepticus, controlled drug</td></tr>
+<tr><td>phenobarbital</td><td>US spelling of phenobarbitone</td></tr>
+<tr><td>hydralazine</td><td>IV — hypertensive crisis in pregnancy, requires BP monitoring</td></tr>
+<tr><td>labetalol</td><td>IV — severe hypertension, requires cardiac monitoring</td></tr>
+    </table></div>
+    <p class="small">Not on this list: the pre-referral first doses of ampicillin and gentamicin for maternal sepsis, which you approved on 17 Nov. A woman in septic shock is already HIGH, and an emergency, through her vital signs.</p>
+    <div class="q" data-q="5">
+      <p class="qn">Is the medicine list right?</p>
+      <label class="opt"><input type="radio" name="5" value="Agree"><span>Agree</span></label>
+      <label class="opt"><input type="radio" name="5" value="Change"><span>Change (say what below)</span></label>
+      <textarea name="5_other" placeholder="Changes or comments"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>6 · Pregnancy and the weeks after delivery</h2>
+    <ul>
+      <li>A woman counts as pregnant for these rules if she is pregnant <b>or gave birth in the last 6 weeks (42 days)</b>. The nurse now records this at registration for any woman aged 12–50 or of unknown age.</li>
+      <li>Pregnancy alone does <b>not</b> make a case HIGH. It does together with a pregnancy-sensitive diagnosis or a medicine to avoid in pregnancy (lists below).</li>
+      <li>If a woman aged 12–50 has an unknown pregnancy status and one of those diagnoses or medicines, the case also becomes HIGH.</li>
+    </ul>
+    <p><b>Pregnancy-sensitive diagnoses:</b> ectopic pregnancy; pre-eclampsia; eclampsia; anaemia in pregnancy; postpartum sepsis; puerperal sepsis; puerperal fever; maternal sepsis; hyperemesis gravidarum; placenta praevia; abruption; threatened miscarriage; miscarriage; antepartum haemorrhage; gestational diabetes; obstetric cholestasis; malaria; severe malaria; typhoid; tuberculosis; urinary tract infection; epilepsy; hypertension.</p>
+    <div class="scroll"><table><tr><th>Medicine to avoid in pregnancy</th><th>Note</th></tr>
+<tr><td>ciprofloxacin</td><td>Arthropathy risk; avoid in pregnancy</td></tr>
+<tr><td>ofloxacin</td><td>Avoid in pregnancy</td></tr>
+<tr><td>doxycycline</td><td>Bone and tooth development; contraindicated</td></tr>
+<tr><td>tetracycline</td><td>Contraindicated in pregnancy</td></tr>
+<tr><td>ibuprofen</td><td>NSAID — premature ductus arteriosus closure; avoid esp. 3rd trimester</td></tr>
+<tr><td>diclofenac</td><td>NSAID — same concern as ibuprofen</td></tr>
+<tr><td>naproxen</td><td>NSAID — same concern as ibuprofen</td></tr>
+<tr><td>aspirin</td><td>High dose only; low-dose under doctor supervision may be used</td></tr>
+<tr><td>albendazole</td><td>Avoid in first trimester</td></tr>
+<tr><td>mebendazole</td><td>Avoid in first trimester</td></tr>
+<tr><td>fluconazole</td><td>High dose — fetal malformations</td></tr>
+<tr><td>primaquine</td><td>G6PD haemolysis risk in fetus</td></tr>
+<tr><td>methotrexate</td><td>Absolute contraindication — abortifacient and teratogen</td></tr>
+<tr><td>misoprostol</td><td>Abortifacient — medically prescribed only</td></tr>
+<tr><td>mifepristone</td><td>Abortifacient — medically prescribed only</td></tr>
+<tr><td>phenytoin</td><td>Fetal hydantoin syndrome</td></tr>
+<tr><td>valproate</td><td>Neural tube defects — high-risk teratogen</td></tr>
+<tr><td>carbamazepine</td><td>Neural tube defects</td></tr>
+<tr><td>enalapril</td><td>ACE inhibitor — renal agenesis; avoid 2nd/3rd trimester</td></tr>
+<tr><td>losartan</td><td>ARB — same as ACE inhibitors; contraindicated</td></tr>
+<tr><td>atorvastatin</td><td>Statin — contraindicated in pregnancy</td></tr>
+    </table></div>
+    <div class="q" data-q="6">
+      <p class="qn">Are the pregnancy rules and lists right?</p>
+      <label class="opt"><input type="radio" name="6" value="Agree"><span>Agree</span></label>
+      <label class="opt"><input type="radio" name="6" value="Change"><span>Change (say what below)</span></label>
+      <textarea name="6_other" placeholder="Changes or comments"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>7 · Patient and confidence rules</h2>
+    <ul>
+      <li>Infant under <b>2 years</b> → HIGH.</li>
+      <li>Weight under <b>5 kg</b> → HIGH.</li>
+      <li>A medicine the patient reports an allergy to → HIGH.</li>
+      <li>The AI's own confidence in the diagnosis is low → HIGH.</li>
+    </ul>
+    <div class="q" data-q="7">
+      <p class="qn">Are these rules right?</p><p class="why">Is under 2 years the right cut-off for infants?</p>
+      <label class="opt"><input type="radio" name="7" value="Agree"><span>Agree</span></label>
+      <label class="opt"><input type="radio" name="7" value="Change"><span>Change (say what below)</span></label>
+      <textarea name="7_other" placeholder="Changes or comments"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Your details</h2>
+    <div class="grid2">
+      <input type="text" name="mo_name" placeholder="Name">
+      <input type="date" name="mo_date">
+    </div>
+    <textarea name="comments" placeholder="Any other comments" style="margin-top:10px"></textarea>
+  </section>
+
+  <p class="small">The thresholds and lists are taken directly from the rules file the app runs today. Nothing in the app changes until you sign off or ask for a change.</p>
+</main>
+
+<div class="bar">
+  <button id="gmail">Send via Gmail</button>
+  <button id="copy" class="ghost">Copy answers</button>
+  <button id="dl" class="ghost">Download (.txt)</button>
+  <button id="print" class="ghost">Print / PDF</button>
+  <button id="clear" class="ghost">Clear</button>
+</div>
+<div id="toast"></div>
+
+<script>
+(function () {
+  var KEY = 'cdst_mo_escalation_rules_v1';
+  var form = document.getElementById('form');
+  var fields = form.querySelectorAll('input, textarea');
+  var QS = ['1', '2', '3', '4', '5', '6', '7'];
+  function save() {
+    var data = {};
+    fields.forEach(function (el) {
+      if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; }
+      else data[el.name] = el.value;
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+    return data;
+  }
+  function load() {
+    var data = {};
+    try { data = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+    fields.forEach(function (el) {
+      var v = data[el.name];
+      if (v == null) return;
+      if (el.type === 'radio') el.checked = (v === el.value); else el.value = v;
+    });
+  }
+  function section(q) {
+    var box = form.querySelector('[data-q="' + q + '"]');
+    var card = box ? box.closest('.card') : null;
+    var h = card ? card.querySelector('h2') : null;
+    return h ? h.textContent.trim() : q;
+  }
+  function answers() {
+    var d = save();
+    var lines = ['CDST — MO sign-off: escalation rules and emergency triggers (18 Nov 2026)', 'MO: ' + (d.mo_name || '') + ' | Date: ' + (d.mo_date || ''), ''];
+    QS.forEach(function (q) {
+      lines.push(section(q));
+      lines.push('  → ' + (d[q] || '(no answer)') + (d[q + '_other'] ? ' — ' + d[q + '_other'] : ''));
+    });
+    lines.push('', 'Comments: ' + (d.comments || '-'));
+    return lines.join('\n');
+  }
+  function toast(msg) {
+    var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on');
+    setTimeout(function () { t.classList.remove('on'); }, 1800);
+  }
+  function fallback(text) {
+    var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast('Answers copied'); } catch (e) { alert(text); }
+    document.body.removeChild(ta);
+  }
+  load();
+  form.addEventListener('input', save);
+  form.addEventListener('change', save);
+  document.getElementById('copy').onclick = function () {
+    var text = answers();
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { toast('Answers copied'); }, function () { fallback(text); });
+    else fallback(text);
+  };
+  var MAIL_TO = 'priyank@frontlineknowledgeproject.org';
+  document.getElementById('gmail').onclick = function () {
+    var text = answers();
+    var nm = (form.querySelector('[name="mo_name"]') || {}).value || '';
+    var subject = 'CDST MO sign-off: escalation rules' + (nm ? ': ' + nm : '');
+    var body = text;
+    if (encodeURIComponent(text).length > 6000) {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).catch(function () { fallback(text); });
+      else fallback(text);
+      body = 'My answers have been copied. Please paste them here (Ctrl+V or long-press > Paste) before sending.\n\n';
+      alert('Gmail will open now.\n\nYour answers are long, so they have been copied: paste them into the email body (Ctrl+V or long-press > Paste), then press Send.');
+    }
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(MAIL_TO) + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body), '_blank', 'noopener');
+  };
+  document.getElementById('dl').onclick = function () {
+    var blob = new Blob([answers()], { type: 'text/plain' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'CDST_MO_signoff_escalation_rules.txt'; document.body.appendChild(a); a.click(); a.remove();
+  };
+  document.getElementById('print').onclick = function () { window.print(); };
+  document.getElementById('clear').onclick = function () {
+    if (!confirm('Clear all answers?')) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    fields.forEach(function (el) { if (el.type === 'radio') el.checked = false; else el.value = ''; });
+  };
+})();
+</script>
+</body>
+</html>
